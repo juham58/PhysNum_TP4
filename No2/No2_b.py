@@ -1,5 +1,5 @@
 import numpy as np
-from pylab import imshow,gray,show
+from pylab import imshow,show, plasma
 
 
 def prob_2(h, R, Z, precision_voulue):
@@ -8,39 +8,41 @@ def prob_2(h, R, Z, precision_voulue):
     N = Z*h  # nombre de qudrillés en h
     precision_voulue = precision_voulue
 
-    # Create arrays to hold potential values
-    pot = np.zeros((M+1,N+1), float)
-    pot[0:1*h, :] = 150  # 1 cm fois h pour le cylindre du centre
-    pot[-1, :] = 0  # extrémité du cylindre en r=10cm
-    pot[1*h:, 0], pot[1*h:, -1] = 0, 0 # extrémités en z=0 et z=30 cm
-    potprime = np.empty([M+1,N+1],float)
+    # Création des array de potentiel
+    V = np.zeros((M+1, N+1), float)
+    Vprime = np.empty([M+1, N+1], float)
+
+    # Définition des conditions frontières
+    V[0:1*h, :] = 150  # 1 cm fois h pour le cylindre du centre
+    V[-1, :] = 0  # extrémité du cylindre en r=10cm
+    V[1*h:, 0], V[1*h:, -1] = 0, 0  # extrémités en z=0 et z=30 cm
 
     # Main loop
     delta = 1.0
     while delta > precision_voulue:
 
-        # Calculate new values of the potential
+        # Calcul des nouvelles valeurs de potentiel
         for i in range(M+1):
             for j in range(N+1):
 
                 if i < 1*h or i == M or j == 0 or j == N:  # si cond. frontières
-                    potprime[i, j] = pot[i, j]
+                    Vprime[i, j] = V[i, j]
 
                 else:
-                    potprime[i, j] = 1/4*(h/(2*i*h)*(pot[i+1, j]-pot[i-1, j]) \
-                        + pot[i+1, j] + pot[i-1, j] + pot[i, j+1] + pot[i, j-1])
+                    Vprime[i, j] = 1/4*(h/(2*i*h)*(V[i+1, j]-V[i-1, j])
+                        + V[i+1, j] + V[i-1, j] + V[i, j+1] + V[i, j-1])
 
-        # Calculate np.maximum difference from old values
-        delta = np.max(abs(pot-potprime))
+        # Calcul le max de différence entre nouvelles et vieilles valeurs
+        delta = np.max(abs(V-Vprime))
         print(delta)
 
-        # Swap the two arrays around
-        pot,potprime = potprime,pot
+        # On échange les deux array pour recommencer
+        V, Vprime = Vprime, V
 
     # Make a plot
-    imshow(pot)
-    gray()
+    imshow(V)
+    plasma()
     show()
 
 
-prob_2(10, 10, 30, 2e-2)
+prob_2(10, 10, 30, 1e-1)
