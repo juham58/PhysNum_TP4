@@ -1,5 +1,5 @@
 import numpy as np
-from pylab import imshow,show, plasma
+from pylab import imshow, show, plasma
 
 
 def prob_2(h, R, Z, precision_voulue):
@@ -19,7 +19,9 @@ def prob_2(h, R, Z, precision_voulue):
 
     # Main loop
     delta = 1.0
+    compteur = 0
     while delta > precision_voulue:
+        compteur += 1
 
         # Calcul des nouvelles valeurs de potentiel
         for i in range(M+1):
@@ -34,7 +36,7 @@ def prob_2(h, R, Z, precision_voulue):
 
         # Calcul le max de différence entre nouvelles et vieilles valeurs
         delta = np.max(abs(V-Vprime))
-        print(delta)
+        print("compteur: ", compteur, "delta: ", delta)
 
         # On échange les deux array pour recommencer
         V, Vprime = Vprime, V
