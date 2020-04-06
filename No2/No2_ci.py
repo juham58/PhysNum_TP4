@@ -23,24 +23,23 @@ def prob_2(h, R, Z, precision_voulue):
     Vprime = V
     while delta > precision_voulue:
         compteur += 1
-        V = Vprime
 
         # Calcul des nouvelles valeurs de potentiel
         for i in range(M+1):
             for j in range(N+1):
 
-                if i < 1*h or i == M or j == 0 or j == N:  # si cond. frontières:
-                    continue
+                if i < 1*h or i == M or j == 0 or j == N:  # si cond. frontières
+                    Vprime[i, j] = Vprime[i, j]
 
                 else:
-                    Vprime[i, j] = 1/4*(h/(2*i*h)*(Vprime[i+1, j]-Vprime[i-1, j])
-                        + Vprime[i+1, j] + Vprime[i-1, j] + Vprime[i, j+1] + V[i, j-1])
+                    Vprime[i, j] = 1/4*(Vprime[i+1, j] + Vprime[i-1, j] + Vprime[i, j+1] + Vprime[i, j-1])
 
         # Calcul le max de différence entre nouvelles et vieilles valeurs
         delta = np.max(abs(V-Vprime))
         print("compteur: ", compteur, "delta: ", delta)
 
         # On échange les deux array pour recommencer
+        V = Vprime
 
     # Make a plot
     imshow(Vprime)

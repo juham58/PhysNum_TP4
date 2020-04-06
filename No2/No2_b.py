@@ -47,4 +47,4 @@ def prob_2(h, R, Z, precision_voulue):
     show()
 
 
-prob_2(10, 10, 30, 1e-1)
+prob_2(20, 10, 30, 1e-2)
