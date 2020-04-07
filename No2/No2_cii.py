@@ -1,8 +1,11 @@
 import numpy as np
-from pylab import imshow, show, plasma
+import datetime
+import matplotlib.pyplot as plt
 
 
-def prob_2_sr(h, R, Z, precision_voulue, omega):
+def prob_2_gs(h, R, Z, precision_voulue, omega):
+    temps_debut = datetime.datetime.now()
+
     # Constants
     M = R*h  # nombre de quadrillés en r
     N = Z*h  # nombre de qudrillés en h
@@ -20,6 +23,8 @@ def prob_2_sr(h, R, Z, precision_voulue, omega):
     # Main loop
     delta = 1.0
     compteur = 0
+    Vprime[:] = V
+    print("h: ", h, "M: ", M)
     while delta > precision_voulue:
         compteur += 1
 
@@ -28,23 +33,30 @@ def prob_2_sr(h, R, Z, precision_voulue, omega):
             for j in range(N+1):
 
                 if i < 1*h or i == M or j == 0 or j == N:  # si cond. frontières
-                    Vprime[i, j] = V[i, j]
+                    Vprime[i, j] = Vprime[i, j]
 
                 else:
-                    Vprime[i, j] = (1+omega)/4*(h/(2*i*h)*(V[i+1, j]-V[i-1, j])
-                        + V[i+1, j] + V[i-1, j] + V[i, j+1] + V[i, j-1]) - omega*(V[i, j])
+                    Vprime[i, j] = (1+omega)/4*(h/(2*i*h)*(Vprime[i+1, j]-Vprime[i-1, j])
+                        + Vprime[i+1, j] + Vprime[i-1, j] + Vprime[i, j+1] + Vprime[i, j-1])-omega*Vprime[i, j]
 
         # Calcul le max de différence entre nouvelles et vieilles valeurs
         delta = np.max(abs(V-Vprime))
         print("compteur: ", compteur, "delta: ", delta)
 
         # On échange les deux array pour recommencer
-        V, Vprime = Vprime, V
+        V[:] = Vprime[:]
 
     # Make a plot
-    imshow(V)
-    plasma()
-    show()
+    temps_fin = datetime.datetime.now()
+    delta_temps = temps_fin - temps_debut
+    print("Temps d'éxécution: ", "{}.{} s".format(delta_temps.seconds, delta_temps.microseconds))
+    print("Nombre d'itération: ", compteur, " itérations")
+    plt.figure(figsize=(9, 6))
+    plt.imshow(Vprime, cmap="viridis")
+    plt.title("Potentiel du problème 2 avec h={} et une précision de {} V".format(h, precision_voulue))
+    plt.axis()
+    plt.colorbar()
+    plt.show()
 
 
-prob_2_sr(10, 10, 30, 1e-1, 0) # 0 c'est pour le cas sans surrelaxation
+prob_2_gs(10, 10, 30, 1e-3, 0.9)
