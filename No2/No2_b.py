@@ -1,8 +1,11 @@
 import numpy as np
-from pylab import imshow, show, plasma
+import datetime
+import matplotlib.pyplot as plt
 
 
 def prob_2(h, R, Z, precision_voulue):
+    temps_debut = datetime.datetime.now()
+
     # Constants
     M = R*h  # nombre de quadrillés en r
     N = Z*h  # nombre de qudrillés en h
@@ -42,9 +45,16 @@ def prob_2(h, R, Z, precision_voulue):
         V, Vprime = Vprime, V
 
     # Make a plot
-    imshow(V)
-    plasma()
-    show()
+    temps_fin = datetime.datetime.now()
+    delta_temps = temps_fin - temps_debut
+    print("Temps d'éxécution: ", "{}.{} s".format(delta_temps.seconds, delta_temps.microseconds))
+    print("Nombre d'itération: ", compteur, " itérations")
+    plt.figure(figsize=(9, 6))
+    plt.imshow(Vprime, cmap="viridis")
+    plt.title("Potentiel du problème 2 avec h={} et une précision de {} V".format(h, precision_voulue))
+    plt.axis()
+    plt.colorbar()
+    plt.show()
 
 
-prob_2(20, 10, 30, 1e-2)
+prob_2(20, 10, 30, 1e-1)
