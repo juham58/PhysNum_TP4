@@ -24,7 +24,7 @@ def prob_2_gs(h, R, Z, precision_voulue, omega):
     delta = 1.0
     compteur = 0
     Vprime[:] = V
-    print("h: ", h, "M: ", M)
+    #print("h: ", h, "M: ", M)
     while delta > precision_voulue:
         compteur += 1
 
@@ -41,22 +41,17 @@ def prob_2_gs(h, R, Z, precision_voulue, omega):
 
         # Calcul le max de différence entre nouvelles et vieilles valeurs
         delta = np.max(abs(V-Vprime))
-        print("compteur: ", compteur, "delta: ", delta)
 
         # On échange les deux array pour recommencer
         V[:] = Vprime[:]
-
-    # Make a plot
-    temps_fin = datetime.datetime.now()
-    delta_temps = temps_fin - temps_debut
-    print("Temps d'éxécution: ", "{}.{} s".format(delta_temps.seconds, delta_temps.microseconds))
-    print("Nombre d'itération: ", compteur, " itérations")
-    plt.figure(figsize=(9, 6))
-    plt.imshow(Vprime, cmap="viridis")
-    plt.title("Potentiel du problème 2 avec h={} et une précision de {} V".format(h, precision_voulue))
-    plt.axis()
-    plt.colorbar()
-    plt.show()
+    # On print le compteur lorsque la précision est atteinte pour trouver le meilleur omega
+    print("compteur: ", compteur, "delta: ", delta)
 
 
-prob_2_gs(10, 10, 30, 1e-3, 0.9)
+prob_2_gs(10, 10, 30, 1e-2, 0.93)
+prob_2_gs(10, 10, 30, 1e-2, 0.9425)
+prob_2_gs(10, 10, 30, 1e-2, 0.9429)
+prob_2_gs(10, 10, 30, 1e-2, 0.9433)
+prob_2_gs(10, 10, 30, 1e-2, 0.95)
+prob_2_gs(10, 10, 30, 1e-2, 0)
+
