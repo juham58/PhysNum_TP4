@@ -2,7 +2,7 @@ import numpy as np
 from pylab import imshow, show, plasma
 
 
-def prob_2(h, R, Z, precision_voulue, omega):
+def prob_2_sr(h, R, Z, precision_voulue, omega):
     # Constants
     M = R*h  # nombre de quadrillés en r
     N = Z*h  # nombre de qudrillés en h
@@ -47,4 +47,4 @@ def prob_2(h, R, Z, precision_voulue, omega):
     show()
 
 
-prob_2(10, 10, 30, 1e-1, 0) # 0 c'est pour le cas sans surrelaxation
+prob_2_sr(10, 10, 30, 1e-1, 0) # 0 c'est pour le cas sans surrelaxation
