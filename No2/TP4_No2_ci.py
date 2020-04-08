@@ -1,10 +1,10 @@
 import numpy as np
-import datetime
+import time
 import matplotlib.pyplot as plt
 
 
-def prob_2(h, R, Z, precision_voulue):
-    temps_debut = datetime.datetime.now()
+def prob_2_gs(h, R, Z, precision_voulue, show=True):
+    temps_debut = time.process_time()
 
     # Constants
     M = R*h  # nombre de quadrillés en r
@@ -23,6 +23,10 @@ def prob_2(h, R, Z, precision_voulue):
     # Main loop
     delta = 1.0
     compteur = 0
+    Vprime[:] = V
+    liste_compteur = []
+    liste_delta = []
+    liste_delta_temps = []
     while delta > precision_voulue:
         compteur += 1
 
@@ -31,30 +35,37 @@ def prob_2(h, R, Z, precision_voulue):
             for j in range(N+1):
 
                 if i < 1*h or i == M or j == 0 or j == N:  # si cond. frontières
-                    Vprime[i, j] = V[i, j]
+                    Vprime[i, j] = Vprime[i, j]
 
                 else:
-                    Vprime[i, j] = 1/4*(h/(2*i*h)*(V[i+1, j]-V[i-1, j])
-                        + V[i+1, j] + V[i-1, j] + V[i, j+1] + V[i, j-1])
+                    Vprime[i, j] = 1/4*(h/(2*i*h)*(Vprime[i+1, j]-Vprime[i-1, j])
+                        + Vprime[i+1, j] + Vprime[i-1, j] + Vprime[i, j+1] + Vprime[i, j-1])
 
         # Calcul le max de différence entre nouvelles et vieilles valeurs
         delta = np.max(abs(V-Vprime))
-        print("compteur: ", compteur, "delta: ", delta)
+        temps_maintenant = time.process_time()
+        #print("compteur: ", compteur, "delta: ", delta)
+
+        liste_compteur.append(compteur)
+        liste_delta.append(delta)
+        liste_delta_temps.append(temps_maintenant-temps_debut)
 
         # On échange les deux array pour recommencer
-        V, Vprime = Vprime, V
+        V[:] = Vprime[:]
 
     # Make a plot
-    temps_fin = datetime.datetime.now()
+    temps_fin = time.process_time()
     delta_temps = temps_fin - temps_debut
-    print("Temps d'éxécution: ", "{}.{} s".format(delta_temps.seconds, delta_temps.microseconds))
+    print("Temps d'éxécution: ", temps_fin-temps_debut, " s")
     print("Nombre d'itération: ", compteur, " itérations")
-    plt.figure(figsize=(9, 6))
-    plt.imshow(Vprime, cmap="viridis")
-    plt.title("Potentiel du problème 2 avec h={} et une précision de {} V".format(h, precision_voulue))
-    plt.axis()
-    plt.colorbar()
-    plt.show()
+    if show is True:
+        plt.figure(figsize=(9, 6))
+        plt.imshow(Vprime, cmap="viridis")
+        plt.title("Potentiel du problème 2 avec h={} et une précision de {} V".format(h, precision_voulue))
+        plt.axis()
+        plt.colorbar()
+        plt.show()
+    return liste_compteur, liste_delta, liste_delta_temps
 
 
-prob_2(20, 10, 30, 1e-1)
+# prob_2_gs(10, 10, 30, 1e-1)
