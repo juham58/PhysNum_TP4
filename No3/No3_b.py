@@ -1,5 +1,4 @@
 import numpy as np
-import datetime
 import matplotlib.pyplot as plt
 
 
@@ -53,10 +52,10 @@ def prob_2_gs(h, R, Z, precision_voulue, omega):
                 elif i == 5*h and 9 * h <= j <= 21 * h:
                     Vprime[i, j] = Vprime[i, j]
 
-                elif i == 0:
+                elif i == 0: #Équation spéciale pour r=0 (singularité)
                     Vprime[i, j] = (1+omega)/6 * (4*Vprime[1, j] + Vprime[0, j+1] + Vprime[0, j-1]) - omega*Vprime[i, j]
 
-                else:
+                else: #Équation standard
                     Vprime[i, j] = (1+omega)/4*(h/(2*i*h)*(Vprime[i+1, j]-Vprime[i-1, j])
                         + Vprime[i+1, j] + Vprime[i-1, j] + Vprime[i, j+1] + Vprime[i, j-1])-omega*Vprime[i, j]
 
@@ -64,9 +63,9 @@ def prob_2_gs(h, R, Z, precision_voulue, omega):
         delta = np.max(abs(V-Vprime))
 
         # On échange les deux array pour recommencer
-        print("compteur: ", compteur, "delta: ", delta)
         V[:] = Vprime[:]
-    # On print le compteur lorsque la précision est atteinte pour trouver le meilleur omega
+
+    # On plot un plan 2D et on print le compteur d'itérations
     print("compteur: ", compteur, "delta: ", delta)
     plt.figure(figsize=(9, 6))
     plt.imshow(Vprime, cmap="viridis")
