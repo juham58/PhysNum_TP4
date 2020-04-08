@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def prob_2(h, R, Z, precision_voulue, show=True):
     temps_debut = time.process_time()
 
-    # Constants
+    # Constantes
     M = R*h  # nombre de quadrillés en r
     N = Z*h  # nombre de qudrillés en h
     precision_voulue = precision_voulue
@@ -20,7 +20,7 @@ def prob_2(h, R, Z, precision_voulue, show=True):
     V[-1, :] = 0  # extrémité du cylindre en r=10cm
     V[1*h:, 0], V[1*h:, -1] = 0, 0  # extrémités en z=0 et z=30 cm
 
-    # Main loop
+    # Boucle principale
     delta = 1.0
     compteur = 0
     liste_compteur = []
@@ -43,8 +43,8 @@ def prob_2(h, R, Z, precision_voulue, show=True):
         # Calcul le max de différence entre nouvelles et vieilles valeurs
         delta = np.max(abs(V-Vprime))
         temps_maintenant = time.process_time()
-        #print("compteur: ", compteur, "delta: ", delta)
 
+        # Récolte des données pour le 2ciii
         liste_compteur.append(compteur)
         liste_delta.append(delta)
         liste_delta_temps.append(temps_maintenant)
@@ -52,20 +52,23 @@ def prob_2(h, R, Z, precision_voulue, show=True):
         # On échange les deux array pour recommencer
         V, Vprime = Vprime, V
 
-    # Make a plot
+    # Calcul du temps d'exécution
     temps_fin = time.process_time()
     delta_temps = temps_fin - temps_debut
-    print("Temps d'éxécution: ", delta_temps, " s")
+
+    # Mise en place de la sortie
+    print("Temps d'éxécution: ", delta_temps, "s")
     print("Nombre d'itération: ", compteur, " itérations")
     if show is True:
         plt.figure(figsize=(9, 6))
         plt.imshow(Vprime, cmap="viridis")
-        plt.title("Potentiel du problème 2 avec h={} et une précision de {} V".format(h, precision_voulue))
-        plt.axis()
+        plt.title("Potentiel du problème 2 avec h={} et une précision de {} V\navec l'algorithme de base".format(h, precision_voulue))
+        plt.xlabel("Position en {}z [cm]".format(h))
+        plt.ylabel("Position en {}r [cm]".format(h))
         plt.colorbar()
         plt.show()
 
     return liste_compteur, liste_delta, liste_delta_temps
 
 
-# prob_2(20, 10, 30, 1e-1)
+prob_2(20, 10, 30, 1e-3)

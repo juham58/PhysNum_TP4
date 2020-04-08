@@ -44,7 +44,7 @@ def prob_2_gs(h, R, Z, precision_voulue, show=True):
         # Calcul le max de différence entre nouvelles et vieilles valeurs
         delta = np.max(abs(V-Vprime))
         temps_maintenant = time.process_time()
-        #print("compteur: ", compteur, "delta: ", delta)
+        #print("compteur: ", compteur, "delta: ", delta, "temps: ", temps_maintenant-temps_debut)
 
         liste_compteur.append(compteur)
         liste_delta.append(delta)
@@ -56,13 +56,14 @@ def prob_2_gs(h, R, Z, precision_voulue, show=True):
     # Make a plot
     temps_fin = time.process_time()
     delta_temps = temps_fin - temps_debut
-    print("Temps d'éxécution: ", temps_fin-temps_debut, " s")
+    print("Temps d'éxécution: ", temps_fin-temps_debut, "s")
     print("Nombre d'itération: ", compteur, " itérations")
     if show is True:
         plt.figure(figsize=(9, 6))
         plt.imshow(Vprime, cmap="viridis")
-        plt.title("Potentiel du problème 2 avec h={} et une précision de {} V".format(h, precision_voulue))
-        plt.axis()
+        plt.title("Potentiel du problème 2 avec h={} et une précision de {} V\navec Gauss-Seidel".format(h, precision_voulue))
+        plt.xlabel("Position en {}z [cm]".format(h))
+        plt.ylabel("Position en {}r [cm]".format(h))
         plt.colorbar()
         plt.show()
     return liste_compteur, liste_delta, liste_delta_temps

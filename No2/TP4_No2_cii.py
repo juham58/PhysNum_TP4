@@ -45,7 +45,7 @@ def prob_2_sr(h, R, Z, precision_voulue, omega, show=True):
         # Calcul le max de différence entre nouvelles et vieilles valeurs
         delta = np.max(abs(V-Vprime))
         temps_maintenant = time.process_time()
-        print("compteur: ", compteur, "delta: ", delta, "temps:", temps_maintenant-temps_debut)
+        #print("compteur: ", compteur, "delta: ", delta, "temps:", temps_maintenant-temps_debut)
 
         liste_compteur.append(compteur)
         liste_delta.append(delta)
@@ -57,16 +57,26 @@ def prob_2_sr(h, R, Z, precision_voulue, omega, show=True):
     # Make a plot
     temps_fin = time.process_time()
     delta_temps = temps_fin - temps_debut
-    print("Temps d'éxécution: ", delta_temps, " s")
+    print("Temps d'éxécution: ", delta_temps, "s")
     print("Nombre d'itération: ", compteur, " itérations")
     if show is True:
         plt.figure(figsize=(9, 6))
         plt.imshow(Vprime, cmap="viridis")
-        plt.title("Potentiel du problème 2 avec h={} et une précision de {} V".format(h, precision_voulue))
-        plt.axis()
+        plt.title("Potentiel du problème 2 avec h={} et une précision de {} V\navec la surrelaxation et Gauss-Seidel".format(h, precision_voulue))
+        plt.xlabel("Position en {}z [cm]".format(h))
+        plt.ylabel("Position en {}r [cm]".format(h))
         plt.colorbar()
         plt.show()
     return liste_compteur, liste_delta, liste_delta_temps
 
 
-#prob_2_sr(10, 10, 30, 1e-5, 0.9)
+# essaies des essaies et erreurs
+# prob_2_sr(10, 10, 30, 1e-2, 0.93)
+# prob_2_sr(10, 10, 30, 1e-2, 0.9425)
+# prob_2_sr(10, 10, 30, 1e-2, 0.9429)
+# prob_2_sr(10, 10, 30, 1e-2, 0.9433)
+# prob_2_sr(10, 10, 30, 1e-2, 0.95)
+# prob_2_sr(10, 10, 30, 1e-2, 0)
+
+
+prob_2_sr(10, 10, 30, 1e-4, 0.9425)
