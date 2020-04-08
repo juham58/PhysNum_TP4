@@ -1,8 +1,11 @@
 import numpy as np
+import time
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
-def prob_2_gs(h, R, Z, precision_voulue, omega):
+def prob_3_b_sr(h, R, Z, precision_voulue, omega):
+    temps_debut = time.process_time()
 
     # Constants
     M = R*h  # nombre de quadrillés en r
@@ -66,11 +69,20 @@ def prob_2_gs(h, R, Z, precision_voulue, omega):
         V[:] = Vprime[:]
 
     # On plot un plan 2D et on print le compteur d'itérations
-    print("compteur: ", compteur, "delta: ", delta)
+    temps_fin = time.process_time()
+    delta_temps = temps_fin - temps_debut
+    print("Temps d'éxécution: ", delta_temps, "s")
+    print("Nombre d'itération: ", compteur, " itérations")
     plt.figure(figsize=(9, 6))
-    plt.imshow(Vprime, cmap="viridis")
-    plt.axis()
-    plt.colorbar(fraction=0.047, pad=0.04)
+    ax = plt.gca()
+    im = ax.imshow(Vprime, cmap="viridis")
+    plt.title("Potentiel du problème 3-b avec h={} et une précision de {} V\navec la surrelaxation et Gauss-Seidel".format(h, precision_voulue))
+    plt.xlabel("Position en {}z [cm]".format(h))
+    plt.ylabel("Position en {}r [cm]".format(h))
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.2)
+    cbar = plt.colorbar(im, cax=cax)
+    cbar.set_label('Potentiel [V]', labelpad=15, rotation=270)
     plt.show()
 
-prob_2_gs(10,10,30,1e-3,0.9)
+prob_3_b_sr(10, 10, 36, 1e-7, 0.9425)

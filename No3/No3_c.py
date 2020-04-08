@@ -1,8 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
-def prob_2_gs(h, R, Z, precision_voulue, omega):
+def prob_3_c_sr(h, R, Z, precision_voulue, omega):
+    temps_debut = time.process_time()
+
     # Constants
     M = R * h  # nombre de quadrillés en r
     N = Z * h  # nombre de qudrillés en h
@@ -71,7 +74,10 @@ def prob_2_gs(h, R, Z, precision_voulue, omega):
         V[:] = Vprime[:]
 
     # On plot un plan 2D et on print le compteur d'itérations
-    print("compteur: ", compteur, "delta: ", delta)
+    temps_fin = time.process_time()
+    delta_temps = temps_fin - temps_debut
+    print("Temps d'éxécution: ", delta_temps, "s")
+    print("Nombre d'itération: ", compteur, " itérations")
     plt.figure(figsize=(9, 6))
     plt.imshow(Vprime, cmap="viridis")
     plt.axis()
@@ -79,4 +85,4 @@ def prob_2_gs(h, R, Z, precision_voulue, omega):
     plt.show()
 
 
-prob_2_gs(10, 10, 33, 1e-3, 0.9)
+prob_3_c_sr(10, 10, 33, 1e-7, 0.9425)
