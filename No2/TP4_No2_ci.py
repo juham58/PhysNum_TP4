@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
 def prob_2_gs(h, R, Z, precision_voulue, show=True):
@@ -73,4 +74,4 @@ def prob_2_gs(h, R, Z, precision_voulue, show=True):
     return liste_compteur, liste_delta, liste_delta_temps
 
 
-prob_2_gs(10, 10, 30, 1e-3)
+prob_2_gs(10, 10, 30, 1e-4)
