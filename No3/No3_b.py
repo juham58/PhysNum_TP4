@@ -32,9 +32,29 @@ def prob_2_gs(h, R, Z, precision_voulue, omega):
         # Calcul des nouvelles valeurs de potentiel
         for i in range(M+1):
             for j in range(N+1):
-
-                if i < 1*h or i == M or j == 0 or j == N:  # si cond. frontières
+                if i < 1*h and 3*h < j < 27*h:  # conditions frontières.
                     Vprime[i, j] = Vprime[i, j]
+
+                elif j == 0:
+                    Vprime[i, j] = Vprime[i, j]
+
+                elif j == N:
+                    Vprime[i, j] = Vprime[i, j]
+
+                elif j == 9*h and i >= 5*h:
+                    Vprime[i, j] = Vprime[i, j]
+
+                elif j == 21*h and i >= 5*h:
+                    Vprime[i, j] = Vprime[i, j]
+
+                elif i == M:
+                    Vprime[i, j] = Vprime[i, j]
+
+                elif i == 5*h and 9 * h <= j <= 21 * h:
+                    Vprime[i, j] = Vprime[i, j]
+
+                elif i == 0:
+                    Vprime[i, j] = (1+omega)/6 * (4*Vprime[1, j] + Vprime[0, j+1] + Vprime[0, j-1]) - omega*Vprime[i, j]
 
                 else:
                     Vprime[i, j] = (1+omega)/4*(h/(2*i*h)*(Vprime[i+1, j]-Vprime[i-1, j])
@@ -50,9 +70,8 @@ def prob_2_gs(h, R, Z, precision_voulue, omega):
     print("compteur: ", compteur, "delta: ", delta)
     plt.figure(figsize=(9, 6))
     plt.imshow(Vprime, cmap="viridis")
-    plt.title("Potentiel du problème 2 avec h={} et une précision de {} V".format(h, precision_voulue))
     plt.axis()
-    plt.colorbar()
+    plt.colorbar(fraction=0.047, pad=0.04)
     plt.show()
 
-prob_2_gs(10,10,30,1e-2,0.9)
+prob_2_gs(10,10,30,1e-3,0.9)
