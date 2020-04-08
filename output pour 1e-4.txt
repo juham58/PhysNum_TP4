@@ -1,0 +1,6 @@
+Temps d'�x�cution:  1145.265625 s
+Nombre d'it�ration:  17459  it�rations
+Temps d'�x�cution:  604.46875 s
+Nombre d'it�ration:  9897  it�rations
+Temps d'�x�cution:  29.609375 s
+Nombre d'it�ration:  415  it�rations
