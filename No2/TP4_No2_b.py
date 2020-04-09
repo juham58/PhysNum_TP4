@@ -58,13 +58,14 @@ def prob_2(h, R, Z, precision_voulue, show=True):
     delta_temps = temps_fin - temps_debut
 
     # Mise en place de la sortie
-    print("Temps d'éxécution: ", delta_temps, "s")
+    print("Temps d'exécution: ", delta_temps, "s")
     print("Nombre d'itération: ", compteur, " itérations")
+
+    # affiche un graphique
     if show is True:
         plt.figure(figsize=(9, 6))
         ax = plt.gca()
         im = ax.imshow(Vprime, cmap="viridis")
-        plt.title("Potentiel du problème 2 avec h={} et une précision de {} V\navec l'algorithme de base".format(h, precision_voulue))
         plt.xlabel("Position en {}z [cm]".format(h))
         plt.ylabel("Position en {}r [cm]".format(h))
         divider = make_axes_locatable(ax)
@@ -75,4 +76,5 @@ def prob_2(h, R, Z, precision_voulue, show=True):
     return liste_compteur, liste_delta, liste_delta_temps
 
 
-#prob_2(10, 10, 30, 1e-4)
+# commande utilisée pour afficher la figure dans le pdf
+# prob_2(10, 10, 30, 1e-4)

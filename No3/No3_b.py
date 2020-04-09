@@ -23,11 +23,10 @@ def prob_3_b_sr(h, R, Z, precision_voulue, omega):
     V[5 * h, 9 * h:21 * h] = 0  # extrémité du cylindre central en r=5 cm
     V[:, 0], V[:, -1] = 0, 0  # extrémités en z=0 et z=30 cm
 
-    # Main loop
+    # Boucle principale
     delta = 1.0
     compteur = 0
     Vprime[:] = V
-    #print("h: ", h, "M: ", M)
     while delta > precision_voulue:
         compteur += 1
 
@@ -55,10 +54,10 @@ def prob_3_b_sr(h, R, Z, precision_voulue, omega):
                 elif i == 5*h and 9 * h <= j <= 21 * h:
                     Vprime[i, j] = Vprime[i, j]
 
-                elif i == 0: #Équation spéciale pour r=0 (singularité)
+                elif i == 0: # Équation spéciale pour r=0 (singularité)
                     Vprime[i, j] = (1+omega)/6 * (4*Vprime[1, j] + Vprime[0, j+1] + Vprime[0, j-1]) - omega*Vprime[i, j]
 
-                else: #Équation standard
+                else: # Équation standard
                     Vprime[i, j] = (1+omega)/4*(h/(2*i*h)*(Vprime[i+1, j]-Vprime[i-1, j])
                         + Vprime[i+1, j] + Vprime[i-1, j] + Vprime[i, j+1] + Vprime[i, j-1])-omega*Vprime[i, j]
 
@@ -71,12 +70,12 @@ def prob_3_b_sr(h, R, Z, precision_voulue, omega):
     # On plot un plan 2D et on print le compteur d'itérations
     temps_fin = time.process_time()
     delta_temps = temps_fin - temps_debut
-    print("Temps d'éxécution: ", delta_temps, "s")
+    print("Temps d'exécution: ", delta_temps, "s")
     print("Nombre d'itération: ", compteur, " itérations")
+
     plt.figure(figsize=(9, 6))
     ax = plt.gca()
     im = ax.imshow(Vprime, cmap="viridis")
-    plt.title("Potentiel du problème 3-b avec h={} et une précision de {} V\navec la surrelaxation et Gauss-Seidel".format(h, precision_voulue))
     plt.xlabel("Position en {}z [cm]".format(h))
     plt.ylabel("Position en {}r [cm]".format(h))
     divider = make_axes_locatable(ax)
@@ -85,4 +84,5 @@ def prob_3_b_sr(h, R, Z, precision_voulue, omega):
     cbar.set_label('Potentiel [V]', labelpad=15, rotation=270)
     plt.show()
 
-prob_3_b_sr(10, 10, 36, 1e-7, 0.9425)
+
+prob_3_b_sr(10, 10, 30, 1e-3, 0.9425)
