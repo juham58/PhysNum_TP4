@@ -84,4 +84,4 @@ def prob_2_sr(h, R, Z, precision_voulue, omega, show=True):
 # prob_2_sr(10, 10, 30, 1e-2, 0)
 
 
-prob_2_sr(10, 10, 30, 1e-7, 0.9425)
+#prob_2_sr(10, 10, 30, 1e-7, 0.9425)

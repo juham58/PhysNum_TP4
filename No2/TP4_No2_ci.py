@@ -74,4 +74,4 @@ def prob_2_gs(h, R, Z, precision_voulue, show=True):
     return liste_compteur, liste_delta, liste_delta_temps
 
 
-prob_2_gs(10, 10, 30, 1e-4)
+#prob_2_gs(10, 10, 30, 1e-4)

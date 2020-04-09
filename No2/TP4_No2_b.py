@@ -75,4 +75,4 @@ def prob_2(h, R, Z, precision_voulue, show=True):
     return liste_compteur, liste_delta, liste_delta_temps
 
 
-prob_2(10, 10, 30, 1e-4)
+#prob_2(10, 10, 30, 1e-4)
